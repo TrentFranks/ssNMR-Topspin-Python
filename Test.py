@@ -1,0 +1,7 @@
+#MSG(GETPAR("PULPROG"))
+#MSG(GETPAR2("PULPROG"))
+
+ppname=GETPAR("PULPROG")
+text=GET_PULSPROG_TEXT(ppname)
+
+#MSG(text)

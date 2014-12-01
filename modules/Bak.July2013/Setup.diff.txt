@@ -1,0 +1,366 @@
+8a9,10
+> import os
+> import sys
+36c38
+< def PutPars(p90H,ampH,p90C,ampC,p90N,ampN,MAS,units):
+---
+> def PutPars(p90H,ampH,p90C,ampC,p90N,ampN,MAS):
+38c40
+<   TopCmds.PUTPAR("PL"+units+" 2",str(ampH))
+---
+>   TopCmds.PUTPAR("PLW 2",str(ampH))
+40c42
+<   TopCmds.PUTPAR("PL"+units+" 1",str(ampC))
+---
+>   TopCmds.PUTPAR("PLW 1",str(ampC))
+42c44
+<   TopCmds.PUTPAR("PL"+units+" 21",str(ampN))
+---
+>   TopCmds.PUTPAR("PLW 3",str(ampN))
+49c51
+< def LoadFromData(units):
+---
+> def LoadFromData():
+51c53
+<   ampH=float(TopCmds.GETPAR("PL"+units+" 2"))
+---
+>   ampH=float(TopCmds.GETPAR("PLW 2"))
+53c55
+<   ampC=float(TopCmds.GETPAR("PL"+units+" 1"))
+---
+>   ampC=float(TopCmds.GETPAR("PLW 1"))
+55c57
+<   ampN=float(TopCmds.GETPAR("PL"+units+" 21"))
+---
+>   ampN=float(TopCmds.GETPAR("PLW 3"))
+61c63
+<   ["us",units,"us",units,"us",units," Hz"],\
+---
+>   ["us","W","us","W","us","W"," Hz"],\
+72c74
+<   PutPars(p90H,ampH,p90C,ampC,p90N,ampN,MAS,units)
+---
+>   PutPars(p90H,ampH,p90C,ampC,p90N,ampN,MAS)
+74c76
+< def LoadDefault(units):
+---
+> def LoadDefault():
+82c84
+<   ["us",units,"us",units,"us",units," Hz"],\
+---
+>   ["us","W","us","W","us","W"," Hz"],\
+93c95
+<   PutPars(p90H,ampH,p90C,ampC,p90N,ampN,MAS,units)
+---
+>   PutPars(p90H,ampH,p90C,ampC,p90N,ampN,MAS)
+95c97
+< def HC(units):
+---
+> def CalHC():
+147c149
+<       Ratio=Ratio-1 
+---
+>       Ratio=Ratio-1
+160c162
+<     
+---
+> 
+182,185d183
+<   
+<   if units == "W":
+<     Hamp=dBtoW(Hamp)
+<     Camp=dBtoW(Camp)
+186a185,186
+>   Hwatts=dBtoW(Hamp)
+>   Cwatts=dBtoW(Camp)
+188,190c188,190
+<   "This will set\n 1H power to:  " + str('%3.2f' %Hamp)+" "+ units+"\n \
+<   13C power to:  " +str('%3.2f' %Camp) + units,["Update", "Keep Previous"])
+<   
+---
+>   "This will set\n 1H power to:  " + str('%3.2f' %Hwatts)+ " W\n \
+>   13C power to:  " +str('%3.2f' %Cwatts) + " W",["Update", "Keep Previous"])
+> 
+192,195c192,195
+<     TopCmds.PUTPAR("SP"+units+" 40",str('%3.2f' %Hamp))
+<     TopCmds.PUTPAR("SP"+units+" 41",str('%3.2f' %Camp))
+<     TopCmds.PUTPAR("PL"+units+" 40",str('%3.2f' %Hamp))
+<     TopCmds.PUTPAR("PL"+units+" 41",str('%3.2f' %Camp))
+---
+>     TopCmds.PUTPAR("SPdB 40",str('%3.2f' %Hamp))
+>     TopCmds.PUTPAR("SPdB 41",str('%3.2f' %Camp))
+>     TopCmds.PUTPAR("PLdB 40",str('%3.2f' %Hamp))
+>     TopCmds.PUTPAR("PLdB 41",str('%3.2f' %Camp))
+199,200c199,200
+<    
+< def HN(units):
+---
+> 
+> def CalHN():
+209c209
+<   
+---
+> 
+217a218
+>     #TopCmds.MSG("Please set spnam0")
+228c229
+<   
+---
+> 
+234,236c235,237
+<     
+<     if HCond > MaxB1H: 
+<       Ratio=Ratio-1 
+---
+> 
+>     if HCond > MaxB1H:
+>       Ratio=Ratio-1
+288,291c289,291
+< 
+<   if units == "W":
+<     Hamp=dBtoW(Hamp)
+<     Namp=dBtoW(Namp)
+---
+>     
+>   Hwatts=dBtoW(Hamp)
+>   Nwatts=dBtoW(Namp)
+294,296c294,296
+<   "This will set\n 1H power to:  " + str('%3.2f' %Hamp)+" "+ units+"\n \
+<   15N power to:  " +str('%3.2f' %Namp) + units,["Update", "Keep Previous"])
+<     
+---
+>   "This will set\n 1H power to:  " + str('%3.2f' %Hwatts)+ " W\n \
+>   15N power to:  " +str('%3.2f' %Nwatts) + " W",["Update", "Keep Previous"])
+>   
+298,301c298,301
+<     TopCmds.PUTPAR("SP"+units+" 42",str('%3.2f' %Hamp))
+<     TopCmds.PUTPAR("SP"+units+" 43",str('%3.2f' %Namp))
+<     TopCmds.PUTPAR("PL"+units+" 42",str('%3.2f' %Hamp))
+<     TopCmds.PUTPAR("PL"+units+" 43",str('%3.2f' %Namp))
+---
+>     TopCmds.PUTPAR("SPdB 42",str('%3.2f' %Hamp))
+>     TopCmds.PUTPAR("SPdB 43",str('%3.2f' %Namp))
+>     TopCmds.PUTPAR("PLdB 42",str('%3.2f' %Hamp))
+>     TopCmds.PUTPAR("PLdB 43",str('%3.2f' %Namp))
+306c306
+< def NCA(units):
+---
+> def CalNCA():
+317,318c317
+<     TopCmds.PUTPAR("SPNAM 42","tancn")
+<     #TopCmds.MSG("Please set spnam2")
+---
+>     #TopCmds.MSG("Please set spnam50")
+358,360c357,358
+<   if units == "W":
+<     Namp=dBtoW(Namp)
+<     Camp=dBtoW(Camp)
+---
+>   Nwatts=dBtoW(Namp)
+>   Cwatts=dBtoW(Camp)
+363,364c361,362
+<   "This will set\n 13C power to:  " + str('%3.2f' %Camp)+" "+ units+"\n \
+<   15N power to:  " +str('%3.2f' %Namp) + units,["Update", "Keep Previous"])
+---
+>   "This will set\n 13C power to:  " + str('%3.2f' %Cwatts)+ " W\n \
+>   15N power to:  " +str('%3.2f' %Nwatts) + " W",["Update", "Keep Previous"])
+367a366
+>     TopCmds.PUTPAR("PLdB 50",str('%3.2f' %Camp))
+370c369
+<     TopCmds.PUTPAR("SPNAM 2",SP)
+---
+>     TopCmds.PUTPAR("SPNAM 50",SP)
+372c371
+< def NCO(units):
+---
+> def CalNCO():
+407c406
+<   ["Carbon B1 field","Nitrogen B1 field","Contact Time(P15)","Ramp Name"],\
+---
+>   ["Carbon B1 field","Nitrogen B1 field","Contact Time(P17)","Ramp Name"],\
+422,425c421,423
+<   
+<   if units == "W":
+<     Namp=dBtoW(Namp)
+<     Camp=dBtoW(Camp)
+---
+> 
+>   Nwatts=dBtoW(Namp)
+>   Cwatts=dBtoW(Camp)
+428,429c426,427
+<   "This will set\n 13C power to:  " + str('%3.2f' %Camp)+" "+ units+"\n \
+<   15N power to:  " +str('%3.2f' %Namp) + units,["Update", "Keep Previous"])
+---
+>   "This will set\n 13C power to:  " + str('%3.2f' %Cwatts)+ " W\n \
+>   15N power to:  " +str('%3.2f' %Nwatts) + " W",["Update", "Keep Previous"])
+432,433c430,432
+<     TopCmds.PUTPAR("PL"+units+" 6",str('%3.2f' %Namp))
+<     TopCmds.PUTPAR("SP"+units+" 51",str('%3.2f' %Camp))
+---
+>     TopCmds.PUTPAR("PLdB 6",str('%3.2f' %Namp))
+>     TopCmds.PUTPAR("PLdB 51",str('%3.2f' %Camp))
+>     TopCmds.PUTPAR("SPdB 51",str('%3.2f' %Camp))
+448c447
+< def HDec(units):
+---
+> def HDec():
+459a459
+>   #TopCmds.MSG(str(CPD))
+468c468
+<   
+---
+> 
+473c473
+<   
+---
+> 
+475c475
+<   
+---
+> 
+480,482c480,481
+<   
+<   if units =="W":
+<     Hamp=dBtoW(Hamp)
+---
+> 
+>   wattsH=dBtoW(Hamp)
+485,487c484,486
+<   "This will set\n 1H power ("+ Stuff[0] +") to:  "+ str('%.2f' %Hamp)+" "+ units+"\n \
+<   Pulse width ("+ Stuff[1] +") to:  " +str('%3.2f' %decpwH) + units,["Update", "Keep Previous"])
+<   
+---
+>   "This will set\n 1H power ("+ Stuff[0] +") to:  "+ str('%.2f' %wattsH)+ " W\n \
+>   Pulse width ("+ Stuff[1] +") to:  " +str('%3.2f' %decpwH) + " us",["Update", "Keep Previous"])
+> 
+491c490
+<       TopCmds.PUTPAR("PL"+units+" 12",str('%3.2f' %Hamp))
+---
+>       TopCmds.PUTPAR("PLdB 12",str('%3.2f' %Hamp))
+493c492
+<       TopCmds.PUTPAR("PL"+units+" 13",str('%3.2f' %Hamp))
+---
+>       TopCmds.PUTPAR("PLdB 13",str('%3.2f' %Hamp))
+495,496c494,495
+<       TopCmds.PUTPAR("PL"+units+" 14",str('%3.2f' %Hamp))
+<     
+---
+>       TopCmds.PUTPAR("PLdB 14",str('%3.2f' %Hamp))
+> 
+505,506c504,505
+<   
+< def NDec(units):
+---
+> 
+> def NDec():
+533c532
+<   Namp = amp-adjust
+---
+>   ampli = amp-adjust
+536,537c535
+<   if units =="W":
+<     Namp=dBtoW(Namp)
+---
+>   Nwatts=dBtoW(Namp)
+540c538
+<   "This will set\n 15N power ("+ Stuff[0] +") to:  "+ str('%3.2f' %Namp)+" "+ units+"\n \
+---
+>   "This will set\n 15N power ("+ Stuff[0] +") to:  "+ str('%3.2f' %Nwatts)+ " W\n \
+546c544
+<       TopCmds.PUTPAR("PL"+units+" 3",str('%3.2f' %Namp))
+---
+>       TopCmds.PUTPAR("PLdB 3",str('%3.2f' %ampli))
+548c546
+<       TopCmds.PUTPAR("PL"+units+" 3",str('%3.2f' %Namp))
+---
+>       TopCmds.PUTPAR("PLdB 3",str('%3.2f' %ampli))
+551c549
+<       #TopCmds.PUTPAR("PLdB 12",str('%3.2f' %/Namp))
+---
+>       #TopCmds.PUTPAR("PLdB 12",str('%3.2f' %ampli))
+554c552
+<       #TopCmds.PUTPAR("PLdB 13",str('%3.2f' %Namp))
+---
+>       #TopCmds.PUTPAR("PLdB 13",str('%3.2f' %ampli))
+568c566
+< def CDec(units):
+---
+> def CDec():
+599,600c597
+<   if units == "W":
+<     ampli=dBtoW(ampli)
+---
+>   watts=dBtoW(ampli)
+603c600
+<   "This will set\n 13C power ("+ Stuff[0] +") to:  "+ str('%3.2f' %ampli)+" "+ units+"\n \
+---
+>   "This will set\n 13C power ("+ Stuff[0] +") to:  "+ str('%3.2f' %watts)+ " W\n \
+609c606
+<       TopCmds.PUTPAR("PL"+units+" 4",str('%3.2f' %ampli))
+---
+>       TopCmds.PUTPAR("PLdB 4",str('%3.2f' %ampli))
+611c608
+<       TopCmds.PUTPAR("PL"+units+" 4",str('%3.2f' %ampli))
+---
+>       TopCmds.PUTPAR("PLdB 4",str('%3.2f' %ampli))
+634c631
+< def DDec(units):
+---
+> def DDec():
+665,666c662
+<   if units == "W":
+<     ampli=dBtoW(ampli)
+---
+>   watts=dBtoW(ampli)
+669c665
+<   "This will set\n 2H power ("+ Stuff[0] +") to:  "+ str('%3.2f' %ampli)+" "+ units+"\n \
+---
+>   "This will set\n 2H power ("+ Stuff[0] +") to:  "+ str('%3.2f' %watts)+ " W\n \
+675c671
+<       TopCmds.PUTPAR("PL"+units+" 25",str('%3.2f' %ampli))
+---
+>       TopCmds.PUTPAR("PLdB 25",str('%3.2f' %ampli))
+677c673
+<       TopCmds.PUTPAR("PL"+units+" 25",str('%3.2f' %ampli))
+---
+>       TopCmds.PUTPAR("PLdB 25",str('%3.2f' %ampli))
+697c693
+< def CalC72(units):
+---
+> def CalC72():
+704,708c700
+< 
+<    if units == "W":
+<      Condition=dBtoW(Condition)
+<   
+<    TopCmds.PUTPAR("PL"+units+" 17",str('%3.2f' %Condition))
+---
+>    TopCmds.PUTPAR("PLdB 17",str('%3.2f' %Condition))
+711c703
+< def CalSPC5_2(units):
+---
+> def CalSPC5_2():
+717,722c709,710
+<    Condition=ampC-adjust
+< 
+<    if units == "W":
+<      Condition=dBtoW(Condition)
+< 
+<    TopCmds.PUTPAR("PL"+units+" 15",str('%3.2f' %condition))
+---
+>    condition=ampC-adjust
+>    TopCmds.PUTPAR("PLdB 15",str('%3.2f' %condition))
+725c713
+< def CalSPC5_3(units):
+---
+> def CalSPC5_3():
+731,736c719,720
+<   Condition=ampC-adjust
+<   
+<   if units == "W":
+<     Condition=dBtoW(Condition)
+< 
+<   TopCmds.PUTPAR("PL"+units+" 15",str('%3.2f' %Condition))
+---
+>   condition=ampC-adjust
+>   TopCmds.PUTPAR("PLdB 15",str('%3.2f' %condition))
